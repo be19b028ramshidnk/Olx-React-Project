@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 
-import Logo from '../../olx-logo.png';
 import './Signup.css';
-import { FirebaseContext } from '../../store/FirebaseContext';
+import { FirebaseContext } from '../../store/Context';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +14,10 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [pincode, setPinCode] = useState('');
+
+
   const { auth,db } = useContext(FirebaseContext);
 
 
@@ -29,7 +32,9 @@ export default function Signup() {
               id: result.user.uid,
               username: username,
               email: email,
-              phone: phone
+              phone: phone,
+              address:address,
+              pincode:pincode
             });
           });
       })
@@ -45,7 +50,6 @@ export default function Signup() {
   return (
     <div>
       <div className="signupParentDiv">
-        <img width="300px" height="200px" src={Logo} alt=''></img>
         <form onSubmit={handleSubmit}>
           <label htmlFor="fname">Username</label>
           <br />
@@ -78,6 +82,11 @@ export default function Signup() {
             type="number"
             value={phone}
             onChange={(e)=>setPhone(e.target.value)}
+            onBlur={() => {
+              if (phone.length !== 10) {
+                alert('Pone Number must be exactly 10 digits long');
+              }
+            }}
             id="lname"
             name="phone"
             defaultValue="Doe"
@@ -90,16 +99,48 @@ export default function Signup() {
             type="password"
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
+            onBlur={() => {
+              if (password.length < 6) {
+                alert('Password must be  6 digits long or more');
+              }
+            }}
             id="lname"
             name="password"
             defaultValue="Doe"
           />
           <br />
+          <label htmlFor="lname">Address</label>
+          <br />
+          <input
+            className="input"
+            type="text"
+            value={address}
+            onChange={(e)=>setAddress(e.target.value)}
+            id="fname"
+            name="address"
+            defaultValue="House Number,city,district"
+          />
+          <label htmlFor="pincode">Pin Code</label>
+            <br />
+            <input
+              className="input"
+              type="number"
+              id="pincode"
+              value={pincode}
+              onChange={(e) => setPinCode(e.target.value)}
+              onBlur={() => {
+                if (pincode.length !== 6) {
+                  alert('Pin Code must be exactly 6 digits long');
+                }
+              }}
+              name="pincode"
+            />
           <br />
           <button>Signup</button>
         </form>
-        <a href='http/jj'>Login</a>
-      </div>
+        <br/>
+        <a href='/login' class="center-link">Login</a>
+        </div>
     </div>
   );
 }

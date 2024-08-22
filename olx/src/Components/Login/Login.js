@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FirebaseContext } from '../../store/FirebaseContext';
+import { FirebaseContext } from '../../store/Context';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../olx-logo.png';
@@ -26,7 +26,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <div className="loginParentDiv">
         <img width="200px" height="200px" src={Logo} alt=''></img>
         <form onSubmit={handleLogin}>
@@ -57,7 +57,7 @@ function Login() {
           <br />
           <button>Login</button>
         </form>
-        <a href='nn'>Signup</a>
+        <a href='/signup'>Signup</a>
       </div>
     </div>
   );
