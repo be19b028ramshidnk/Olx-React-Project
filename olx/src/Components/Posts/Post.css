@@ -68,6 +68,9 @@
 .card .content .kilometer {
   font-size: medium;
 }
+.card .content .category {
+  font-size: medium;
+}
 .card .content .name {
   font-size: small;
 }
